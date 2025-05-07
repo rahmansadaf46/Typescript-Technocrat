@@ -304,7 +304,7 @@
     email: string;
   }
 
-  type UserInfo3Property = keyof UserInfo3;
+  type UserInfo3Property = keyof UserInfo3; // "name" | "age" | "email"
 
   const userInfo3: UserInfo3 = {
     name: "Sadaf",
@@ -316,7 +316,7 @@
     return obj[key];
   }
 
-  console.log(getObjectValue<UserInfo3, UserInfo3Property>(userInfo3, 'email'));
+  console.log(getObjectValue(userInfo3, 'email'));
 
   //
 }
