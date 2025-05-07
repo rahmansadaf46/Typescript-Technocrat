@@ -238,31 +238,85 @@
 
   console.log(processData(6));
 
-
   //Task 12: Never Type
-  const handleError=(message: string):never=>{
-    throw new Error(message)
-  }
+  const handleError = (message: string): never => {
+    throw new Error(message);
+  };
 
-//   handleError('Wasted')
-
+  //   handleError('Wasted')
 
   //Task 13: Generics with Functions and Interfaces
-  const duplicateRemove =<T>(data:T[]): T[]=>{
+  const duplicateRemove = <T>(data: T[]): T[] => {
     // const returnArray: T[] = [...new Set(data)];
     // const returnArray = data.filter((item, index) => data.indexOf(item) === index);
 
-
-
-    const returnArray2 = data.filter((value, index)=> data.indexOf(value) === index) 
+    const returnArray2 = data.filter(
+      (value, index) => data.indexOf(value) === index
+    );
     return returnArray2;
-  }
+  };
 
-  console.log(duplicateRemove<number>([1,2,3,6,6]))
-  console.log(duplicateRemove<string>(['s','s','5','s']))
-
+  console.log(duplicateRemove<number>([1, 2, 3, 6, 6]));
+  console.log(duplicateRemove<string>(["s", "s", "5", "s"]));
 
   //Task 14: Asynchronous TypeScript and Type Aliases
+  type UserInfo2 = {
+    name: string;
+    email: string;
+  };
+  const getUser = async (): Promise<UserInfo2[]> => {
+    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const data: UserInfo2[] = await response.json();
+    const returnData: UserInfo2[] = data.map((user: UserInfo2) => {
+      return { name: user.name, email: user.email };
+    });
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    return returnData;
+  };
+
+  getUser()
+    .then((users: UserInfo2[]) => {
+      console.log("Fetched users:", users);
+    })
+    .catch((error) => {
+      console.error("Error fetching users:", error);
+    });
+
+  //Task 15: Type Guards
+  const printUpperCase = (value: unknown): void => {
+    if (typeof value === "string") {
+      console.log(value.toUpperCase());
+    }
+  };
+  const isString = (value: unknown) => {
+    if (typeof value === "string") {
+      printUpperCase(value);
+    }
+  };
+
+  isString("This is a string");
+
+  //Task 16: Utility Types and Keyof Constraints
+
+  type UserInfo3 = {
+    name: string;
+    age: number;
+    email: string;
+  }
+
+  type UserInfo3Property = keyof UserInfo3;
+
+  const userInfo3: UserInfo3 = {
+    name: "Sadaf",
+    age: 26,
+    email: "rahmansadaf46@gmail.com",
+  }
+
+  const getObjectValue=<X, Y extends keyof X>(obj:X, key: Y)=>{
+    return obj[key];
+  }
+
+  console.log(getObjectValue<UserInfo3, UserInfo3Property>(userInfo3, 'email'));
 
   //
 }
